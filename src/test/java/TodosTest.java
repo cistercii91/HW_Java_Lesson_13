@@ -38,7 +38,55 @@ public class TodosTest {
 //SimpleTaskSearchWorksRelevantValue
 //MeetingSearchWorksRelevantValueTopic
 //EpicSearchWorksRelevantValue3
+    @Test
+    public void SearchWorksRelevantValueAllTask() { // проверка на соответствие значения несокльким задачам
+        SimpleTask simpleTask = new SimpleTask(5, "одинаковая задача");
 
+        String[] subtasks = { "одинаковая задача", "Яйца", "Хлеб" };
+        Epic epic = new Epic(55, subtasks);
+
+        Meeting meeting = new Meeting(
+                555,
+                "одинаковая задача",
+                "Приложение НетоБанка",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        Task[] expected = {simpleTask, epic, meeting};
+        Task[] actual = todos.search("одинаковая задача");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void TodosSearchWorksNotRelevantValue() { // проверка на соответствие значения несокльким задачам
+        SimpleTask simpleTask = new SimpleTask(5, "одинаковая задача");
+
+        String[] subtasks = { "одинаковая задача", "Яйца", "Хлеб" };
+        Epic epic = new Epic(55, subtasks);
+
+        Meeting meeting = new Meeting(
+                555,
+                "одинаковая задача",
+                "Приложение НетоБанка",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        Task[] expected = {};
+        Task[] actual = todos.search("значение которого нет");
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
     @Test
     public void TodosSimpleTaskSearchWorksRelevantValue() { // корректное значение для SimpleTask
